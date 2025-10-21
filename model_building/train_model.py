@@ -4,10 +4,12 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.preprocessing import LabelEncoder
 import xgboost as xgb
 import mlflow
 import mlflow.sklearn
 import joblib
+import pickle
 import numpy as np
 import os
 import shutil
@@ -39,6 +41,40 @@ y_test = test_df['Product_Store_Sales_Total']
 
 print(f"\nTrain data: {X_train.shape}")
 print(f"Test data: {X_test.shape}")
+
+# Create label encoders for deployment (reconstruct from training data)
+print("\nCreating label encoders for categorical features...")
+os.makedirs("model_building/encoders", exist_ok=True)
+
+# Get original dataset to create proper label encoders
+original_dataset = load_dataset("aksace/superkart-sales-data", split='train')
+original_df = original_dataset.to_pandas()
+
+# Apply same preprocessing as data_preparation
+from datetime import datetime
+current_year = datetime.now().year
+original_df['Store_Age'] = current_year - original_df['Store_Establishment_Year']
+original_df['Price_Category'] = pd.cut(original_df['Product_MRP'], 
+                                        bins=[0, 69, 136, 204, 300], 
+                                        labels=['Low', 'Medium', 'High', 'Very High'])
+original_df['Product_Sugar_Content'] = original_df['Product_Sugar_Content'].replace('reg', 'Regular')
+original_df = original_df.drop(['Product_Id', 'Store_Id', 'Store_Establishment_Year', 'Product_Store_Sales_Total'], axis=1)
+
+# Create label encoders
+categorical_cols = ['Product_Sugar_Content', 'Product_Type', 'Store_Size', 
+                   'Store_Location_City_Type', 'Store_Type', 'Price_Category']
+label_encoders = {}
+
+for col in categorical_cols:
+    le = LabelEncoder()
+    le.fit(original_df[col])
+    label_encoders[col] = le
+
+# Save label encoders
+with open('model_building/encoders/label_encoders.pkl', 'wb') as f:
+    pickle.dump(label_encoders, f)
+
+print(f"✓ Label encoders created and saved")
 
 def evaluate_model(model, X_train, y_train, X_test, y_test):
     y_train_pred = model.predict(X_train)
