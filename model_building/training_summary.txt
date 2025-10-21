@@ -1,0 +1,52 @@
+
+================================================================================
+SUPERKART SALES FORECASTING - MODEL TRAINING SUMMARY
+================================================================================
+
+Date: 2025-10-21 05:47:51
+
+DATASET INFORMATION
+-------------------
+- Total Records: 8,763
+- Training Samples: 7,010 (80%)
+- Test Samples: 1,753 (20%)
+- Features: 10
+- Target: Product_Store_Sales_Total
+
+MODELS TRAINED
+--------------
+1. Random Forest Regressor
+2. Gradient Boosting Regressor
+3. XGBoost Regressor
+
+MODEL PERFORMANCE COMPARISON
+----------------------------
+            Model  Test R² Score  Test RMSE  Train R² Score  Train RMSE
+    Random Forest       0.931935 278.681152        0.973054  174.807959
+          XGBoost       0.931441 279.690816        0.957808  218.740400
+Gradient Boosting       0.929023 284.580213        0.971437  179.975324
+
+BEST MODEL SELECTED
+-------------------
+Model: Random Forest
+Test R² Score: 0.9319
+Test RMSE: $278.68
+
+BEST MODEL PARAMETERS
+---------------------
+{'max_depth': None, 'min_samples_leaf': 2, 'min_samples_split': 5, 'n_estimators': 200}
+
+HUGGING FACE ARTIFACTS
+----------------------
+- Dataset: aksace/superkart-sales-data
+- Train Data: aksace/superkart-train-data
+- Test Data: aksace/superkart-test-data
+- Model: aksace/superkart-sales-forecasting-model
+
+MLFLOW TRACKING
+---------------
+- Tracking URI: ./superkart_project/mlruns
+- Experiment Name: SuperKart_Sales_Forecasting
+- Runs Logged: 3 (Random Forest, Gradient Boosting, XGBoost)
+
+================================================================================
