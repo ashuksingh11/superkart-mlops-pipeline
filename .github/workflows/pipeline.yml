@@ -25,7 +25,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python superkart_project/model_building/register_dataset.py
+          python model_building/register_dataset.py
 
   data-prep:
     needs: register-dataset
@@ -46,7 +46,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python superkart_project/model_building/data_preparation.py
+          python model_building/data_preparation.py
 
   model-training:
     needs: data-prep
@@ -72,7 +72,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          python superkart_project/model_building/train_model.py
+          python model_building/train_model.py
 
   deploy-hosting:
     runs-on: ubuntu-latest
@@ -93,5 +93,5 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          cd superkart_project/deployment
+          cd deployment
           python push_to_hf_space.py ${{ secrets.HF_TOKEN }}

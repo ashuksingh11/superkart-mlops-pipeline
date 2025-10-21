@@ -140,14 +140,14 @@ print(f"🏆 BEST MODEL: {best_model_name}")
 print(f"{'='*80}")
 
 # Save and upload best model
-os.makedirs("superkart_project/model_building/models", exist_ok=True)
-os.makedirs("superkart_project/model_building/model_artifacts", exist_ok=True)
+os.makedirs("model_building/models", exist_ok=True)
+os.makedirs("model_building/model_artifacts", exist_ok=True)
 
-joblib.dump(best_model, "superkart_project/model_building/models/best_model.pkl")
-shutil.copy("superkart_project/model_building/models/best_model.pkl",
-            "superkart_project/model_building/model_artifacts/best_model.pkl")
-shutil.copy("superkart_project/model_building/encoders/label_encoders.pkl",
-            "superkart_project/model_building/model_artifacts/label_encoders.pkl")
+joblib.dump(best_model, "model_building/models/best_model.pkl")
+shutil.copy("model_building/models/best_model.pkl",
+            "model_building/model_artifacts/best_model.pkl")
+shutil.copy("model_building/encoders/label_encoders.pkl",
+            "model_building/model_artifacts/label_encoders.pkl")
 
 # Upload to Hugging Face
 model_repo_name = "aksace/superkart-sales-forecasting-model"
@@ -158,7 +158,7 @@ except:
 
 api = HfApi()
 api.upload_folder(
-    folder_path="superkart_project/model_building/model_artifacts",
+    folder_path="model_building/model_artifacts",
     repo_id=model_repo_name,
     repo_type="model",
     token=hf_token

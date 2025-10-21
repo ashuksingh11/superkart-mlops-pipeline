@@ -9,7 +9,7 @@ hf_token = os.environ.get('HF_TOKEN')
 login(token=hf_token)
 
 # Load the dataset
-df = pd.read_csv("superkart_project/data/SuperKart.csv")
+df = pd.read_csv("data/SuperKart.csv")
 print(f"Dataset shape: {df.shape}")
 
 # Convert to Hugging Face Dataset

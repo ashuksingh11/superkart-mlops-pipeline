@@ -59,8 +59,8 @@ for col in categorical_cols:
     label_encoders[col] = le
 
 # Save label encoders
-os.makedirs("superkart_project/model_building/encoders", exist_ok=True)
-with open('superkart_project/model_building/encoders/label_encoders.pkl', 'wb') as f:
+os.makedirs("model_building/encoders", exist_ok=True)
+with open('model_building/encoders/label_encoders.pkl', 'wb') as f:
     pickle.dump(label_encoders, f)
 
 # Train-test split
