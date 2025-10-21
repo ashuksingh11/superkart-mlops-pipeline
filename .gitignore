@@ -29,13 +29,17 @@ mlartifacts/
 .DS_Store
 Thumbs.db
 
-# Model files (optional - since we're uploading to HF)
-*.pkl
-*.h5
-*.pth
+# Model files (will be uploaded to HF)
+model_building/models/*.pkl
+model_building/encoders/*.pkl
+!model_building/models/.gitkeep
 
-# Data files (optional - since we're uploading to HF)
-*.csv
+# Processed data (will be uploaded to HF)
+data/train_data.csv
+data/test_data.csv
+
+# Keep original data
+!data/SuperKart.csv
 
 # Logs
 *.log
